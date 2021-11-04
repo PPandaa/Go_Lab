@@ -7,8 +7,6 @@ import (
 )
 
 const (
-	ServiceName = "XXX"
-
 	Cloud     = "Cloud"
 	OnPremise = "On-Premise"
 )
