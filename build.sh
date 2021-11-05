@@ -1,8 +1,8 @@
 #!/bin/bash
-CONTAINER="X-X-X"
+CONTAINER="GoLab"
 DOCKER_REPO="iiicondor/$CONTAINER"
-VERSION="X.X.X.X"
-MESSAGE="New Version X.X.X.X"
+VERSION="1.0.0.0"
+MESSAGE="New Version 1.0.0.0"
 
 # docker build -t $DOCKER_REPO:dev .
 # docker push $DOCKER_REPO:dev

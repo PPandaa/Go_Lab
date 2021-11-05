@@ -1,6 +1,6 @@
 FROM golang:1.13-buster as build
 
-WORKDIR /go/src/X-X-X
+WORKDIR /go/src/GoLab
 ADD . .
 
 RUN go mod download
