@@ -17,6 +17,7 @@ func init() {
 	// mongodb.Set()
 	// dependency.Set()
 	// mongodb.Connect()
+	// socketLab.Set()
 
 }
 
