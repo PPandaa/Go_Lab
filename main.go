@@ -1,7 +1,7 @@
 package main
 
 import (
-	"log"
+	"GoLab/guard"
 
 	"github.com/joho/godotenv"
 )
@@ -10,7 +10,7 @@ func init() {
 
 	err := godotenv.Load("local.env")
 	if err != nil {
-		log.Fatalf("Error Loading ENV File: " + err.Error())
+		guard.Logger.Fatal("Error Loading ENV File: " + err.Error())
 	}
 
 	// server.Set()
@@ -23,6 +23,6 @@ func init() {
 
 func main() {
 
-	log.Print("GoLab Server Active \n")
+	guard.Logger.Info("GoLab Server Active")
 
 }

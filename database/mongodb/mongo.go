@@ -1,11 +1,11 @@
 package mongodb
 
 import (
+	"GoLab/guard"
 	"GoLab/pkg"
 	"GoLab/server"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"os"
 	"strings"
 	"time"
@@ -57,7 +57,7 @@ func Set() {
 		if !pkg.IsEmptyString(mongodbPasswordFile) {
 			mongodbPassword, err := ioutil.ReadFile(mongodbPasswordFile)
 			if err != nil {
-				log.Fatalf("MongoDB Password File -> " + "FilePath: " + mongodbPasswordFile)
+				guard.Logger.Sugar().Fatalw("MongoDB Password File", "FilePath", mongodbPasswordFile)
 			} else {
 				MongodbInfo.Password = string(mongodbPassword)
 			}
@@ -77,7 +77,7 @@ func Connect() {
 
 	newSession, err := mgo.Dial(MongodbInfo.URL)
 	if err != nil {
-		log.Print("Database Connect Fail -> " + err.Error() + "\n")
+		guard.Logger.Error("Database Connect Fail -> " + err.Error())
 		for err != nil {
 			newSession, err = mgo.Dial(MongodbInfo.URL)
 			time.Sleep(5 * time.Second)
@@ -89,17 +89,17 @@ func Connect() {
 		DB = Session.DB(MongodbInfo.Database)
 		err = DB.Login(MongodbInfo.Username, MongodbInfo.Password)
 		if err != nil {
-			log.Fatalf("Database Connect Fail -> " + err.Error())
+			guard.Logger.Fatal("Database Login Fail -> " + err.Error())
 		}
 	} else {
 		DB = Session.DB(MongodbInfo.AuthDatabase)
 		err = DB.Login(MongodbInfo.Username, MongodbInfo.Password)
 		if err != nil {
-			log.Fatalf("Database Connect Fail -> " + err.Error())
+			guard.Logger.Fatal("Database Login Fail -> " + err.Error())
 		}
 		DB = Session.DB(MongodbInfo.Database)
 	}
-	log.Print("Database Connect Success \n")
+	guard.Logger.Info("Database Connect Success")
 
 }
 
@@ -107,9 +107,9 @@ func ConnectCheck() {
 
 	err := Session.Ping()
 	if err != nil {
-		log.Print("Database Connect Check Fail \n")
+		guard.Logger.Error("Database Connect Check Fail")
 		Session.Refresh()
-		log.Print("Database Reconnect \n")
+		guard.Logger.Info("Database Reconnect \n")
 	}
 
 }
