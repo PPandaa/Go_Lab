@@ -8,12 +8,16 @@ import (
 )
 
 var (
+	SSO_API_URL      *url.URL
 	IFP_DESK_API_URL *url.URL
 )
 
 func setEnv() {
 
 	logString := "Dependencies Info." + "\n"
+
+	SSO_API_URL, _ = url.Parse(os.Getenv("SSO_API_URL"))
+	logString += "  SSO_API_URL: " + SSO_API_URL.String() + "\n"
 
 	ifps_desk_api_url := os.Getenv("IFP_DESK_API_URL")
 	if len(ifps_desk_api_url) != 0 {
