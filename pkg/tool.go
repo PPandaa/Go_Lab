@@ -33,6 +33,17 @@ func IsEmptyString(targetString string) bool {
 
 }
 
+func IsStringExist(target string, array []string) bool {
+
+	for _, item := range array {
+		if item == target {
+			return true
+		}
+	}
+	return false
+
+}
+
 // Type
 func CheckType(i interface{}) string {
 

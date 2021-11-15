@@ -7,8 +7,10 @@ import (
 )
 
 const (
-	Cloud     = "Cloud"
-	OnPremise = "On-Premise"
+	ServiceNameC = "IFPS_III"
+	ServiceNameL = "ifps-iii"
+	Cloud        = "Cloud"
+	OnPremise    = "On-Premise"
 )
 
 var (
