@@ -1,7 +1,7 @@
 package testLab
 
 import (
-	"GoLab/pkg"
+	"GoLab/tool"
 	"testing"
 )
 
@@ -11,7 +11,7 @@ func TestIsEmptyString(t *testing.T) {
 	testAnswers := []bool{true, false, true}
 
 	for testIndex, testCase := range testCases {
-		if pkg.IsEmptyString(testCase) != testAnswers[testIndex] {
+		if tool.IsEmptyString(testCase) != testAnswers[testIndex] {
 			t.Error("wrong result")
 		}
 	}

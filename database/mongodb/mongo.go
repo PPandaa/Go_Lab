@@ -2,8 +2,8 @@ package mongodb
 
 import (
 	"GoLab/guard"
-	"GoLab/pkg"
 	"GoLab/server"
+	"GoLab/tool"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -34,7 +34,7 @@ func Set() {
 
 	if server.Location == server.Cloud {
 		ensaasService := os.Getenv("ENSAAS_SERVICES")
-		if !pkg.IsEmptyString(ensaasService) {
+		if !tool.IsEmptyString(ensaasService) {
 			tempReader := strings.NewReader(ensaasService)
 			m, _ := simplejson.NewFromReader(tempReader)
 			mongodb := m.Get("mongodb").GetIndex(0).Get("credentials").MustMap()
@@ -54,7 +54,7 @@ func Set() {
 		MongodbInfo.Username = os.Getenv("MONGODB_USERNAME")
 		MongodbInfo.AuthDatabase = os.Getenv("MONGODB_AUTH_SOURCE")
 		mongodbPasswordFile := os.Getenv("MONGODB_PASSWORD_FILE")
-		if !pkg.IsEmptyString(mongodbPasswordFile) {
+		if !tool.IsEmptyString(mongodbPasswordFile) {
 			mongodbPassword, err := ioutil.ReadFile(mongodbPasswordFile)
 			if err != nil {
 				guard.Logger.Sugar().Fatalw("MongoDB Password File", "FilePath", mongodbPasswordFile)

@@ -1,8 +1,8 @@
 package dependency
 
 import (
-	"GoLab/pkg"
 	"GoLab/server"
+	"GoLab/tool"
 	"fmt"
 	"net/url"
 	"os"
@@ -25,7 +25,7 @@ func setENV() {
 	logString += "  SSO_API_URL: " + SSO_API_URL.String() + "\n"
 
 	ifps_desk_api_url := os.Getenv("IFP_DESK_API_URL")
-	if pkg.IsEmptyString(ifps_desk_api_url) {
+	if tool.IsEmptyString(ifps_desk_api_url) {
 		IFP_DESK_API_URL, _ = url.Parse("https://ifp-organizer-" + server.Namespace + "-" + server.Cluster + "." + server.External + "/graphql")
 	} else {
 		IFP_DESK_API_URL, _ = url.Parse(ifps_desk_api_url)
@@ -43,7 +43,7 @@ func setENV() {
 	}
 
 	daemon_databroker_api_url := os.Getenv(server.ServiceNameC + "_DAEMON_DATABROKER_API_URL")
-	if pkg.IsEmptyString(daemon_databroker_api_url) {
+	if tool.IsEmptyString(daemon_databroker_api_url) {
 		DAEMON_DATABROKER_API_URL, _ = url.Parse("https://" + server.ServiceNameL + "-daemon-databroker-" + server.Namespace + "-" + server.Cluster + "." + server.External)
 	} else {
 		DAEMON_DATABROKER_API_URL, _ = url.Parse(daemon_databroker_api_url)

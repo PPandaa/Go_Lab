@@ -1,7 +1,7 @@
 package server
 
 import (
-	"GoLab/pkg"
+	"GoLab/tool"
 	"fmt"
 	"os"
 )
@@ -33,7 +33,7 @@ func Set() {
 	Namespace = os.Getenv("namespace")
 	External = os.Getenv("external")
 
-	if !pkg.IsEmptyString(Datacenter) {
+	if !tool.IsEmptyString(Datacenter) {
 		Location = Cloud
 		logString += "  Location: " + Location + "\n" +
 			"  Datacenter: " + Datacenter + "\n" +
