@@ -31,12 +31,16 @@ func setENV() {
 		IFP_DESK_API_URL, _ = url.Parse(ifps_desk_api_url)
 	}
 	logString += "  IFP_DESK_API_URL: " + IFP_DESK_API_URL.String() + "\n"
-	IFP_DESK_CLIENT_SECRET = os.Getenv("IFP_DESK_CLIENT_SECRET")
-	logString += "  IFP_DESK_CLIENT_SECRET: " + IFP_DESK_CLIENT_SECRET + "\n"
-	IFP_DESK_USERNAME = os.Getenv("IFP_DESK_USERNAME")
-	logString += "  IFP_DESK_USERNAME: " + IFP_DESK_USERNAME + "\n"
-	IFP_DESK_PASSWORD = os.Getenv("IFP_DESK_PASSWORD")
-	logString += "  IFP_DESK_PASSWORD: " + IFP_DESK_PASSWORD + "\n"
+
+	if server.Location == server.Cloud {
+		IFP_DESK_CLIENT_SECRET = os.Getenv("IFP_DESK_CLIENT_SECRET")
+		logString += "  IFP_DESK_CLIENT_SECRET: " + IFP_DESK_CLIENT_SECRET + "\n"
+	} else {
+		IFP_DESK_USERNAME = os.Getenv("IFP_DESK_USERNAME")
+		logString += "  IFP_DESK_USERNAME: " + IFP_DESK_USERNAME + "\n"
+		IFP_DESK_PASSWORD = os.Getenv("IFP_DESK_PASSWORD")
+		logString += "  IFP_DESK_PASSWORD: " + IFP_DESK_PASSWORD + "\n"
+	}
 
 	daemon_databroker_api_url := os.Getenv(server.ServiceNameC + "_DAEMON_DATABROKER_API_URL")
 	if pkg.IsEmptyString(daemon_databroker_api_url) {
