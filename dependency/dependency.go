@@ -6,6 +6,6 @@ var (
 
 func Set() {
 
-	setEnv()
+	setENV()
 
 }
