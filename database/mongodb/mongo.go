@@ -17,10 +17,10 @@ import (
 var (
 	DB          *mgo.Database
 	Session     *mgo.Session
-	MongodbInfo InfoStruct
+	MongodbInfo infoStruct
 )
 
-type InfoStruct struct {
+type infoStruct struct {
 	URL          string
 	Database     string
 	Username     string
@@ -30,7 +30,7 @@ type InfoStruct struct {
 
 func Set() {
 
-	logString := "Mongo Database Info." + "\n"
+	logString := "MongoDB Info." + "\n"
 
 	if server.Location == server.Cloud {
 		ensaasService := os.Getenv("ENSAAS_SERVICES")
@@ -65,6 +65,7 @@ func Set() {
 			MongodbInfo.Password = os.Getenv("MONGODB_PASSWORD")
 		}
 	}
+
 	logString += "  URL: " + MongodbInfo.URL + "\n" +
 		"  Database: " + MongodbInfo.Database + "\n" +
 		"  Username: " + MongodbInfo.Username + "\n" +
@@ -77,7 +78,7 @@ func Connect() {
 
 	newSession, err := mgo.Dial(MongodbInfo.URL)
 	if err != nil {
-		guard.Logger.Error("Database Connect Fail -> " + err.Error())
+		guard.Logger.Error("MongoDB Connect Fail -> " + err.Error())
 		for err != nil {
 			newSession, err = mgo.Dial(MongodbInfo.URL)
 			time.Sleep(5 * time.Second)
@@ -89,17 +90,17 @@ func Connect() {
 		DB = Session.DB(MongodbInfo.Database)
 		err = DB.Login(MongodbInfo.Username, MongodbInfo.Password)
 		if err != nil {
-			guard.Logger.Fatal("Database Login Fail -> " + err.Error())
+			guard.Logger.Fatal("MongoDB Login Fail -> " + err.Error())
 		}
 	} else {
 		DB = Session.DB(MongodbInfo.AuthDatabase)
 		err = DB.Login(MongodbInfo.Username, MongodbInfo.Password)
 		if err != nil {
-			guard.Logger.Fatal("Database Login Fail -> " + err.Error())
+			guard.Logger.Fatal("MongoDB Login Fail -> " + err.Error())
 		}
 		DB = Session.DB(MongodbInfo.Database)
 	}
-	guard.Logger.Info("Database Connect Success")
+	guard.Logger.Info("MongoDB Connect Success")
 
 }
 
@@ -107,9 +108,9 @@ func ConnectCheck() {
 
 	err := Session.Ping()
 	if err != nil {
-		guard.Logger.Error("Database Connect Check Fail")
+		guard.Logger.Error("MongoDB Connect Check Fail")
 		Session.Refresh()
-		guard.Logger.Info("Database Reconnect \n")
+		guard.Logger.Info("MongoDB Reconnect \n")
 	}
 
 }
