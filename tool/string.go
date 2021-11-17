@@ -1,6 +1,9 @@
 package tool
 
-import "strings"
+import (
+	"encoding/json"
+	"strings"
+)
 
 func IsEmptyString(targetString string) bool {
 
@@ -20,5 +23,13 @@ func IsStringExist(target string, array []string) bool {
 		}
 	}
 	return false
+
+}
+
+func ConvertStringToMap(str string) map[string]interface{} {
+
+	strMap := make(map[string]interface{})
+	json.Unmarshal([]byte(str), &strMap)
+	return strMap
 
 }

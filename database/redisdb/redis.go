@@ -39,12 +39,12 @@ func Set() {
 			RedisdbInfo.URL = redisdb["host"].(string) + ":" + strconv.Itoa(redisdb["port"].(int))
 			RedisdbInfo.Password = redisdb["password"].(string)
 		} else {
-			RedisdbInfo.URL = os.Getenv("REDISDB_URL")
-			RedisdbInfo.Password = os.Getenv("REDISDB_PASSWORD")
+			RedisdbInfo.URL = os.Getenv("REDIS_URL")
+			RedisdbInfo.Password = os.Getenv("REDIS_PASSWORD")
 		}
 	} else {
-		RedisdbInfo.URL = os.Getenv("REDISDB_URL")
-		redisdbPasswordFile := os.Getenv("REDISDB_PASSWORD_FILE")
+		RedisdbInfo.URL = os.Getenv("REDIS_URL")
+		redisdbPasswordFile := os.Getenv("REDIS_PASSWORD_FILE")
 		if !tool.IsEmptyString(redisdbPasswordFile) {
 			redisPassword, err := ioutil.ReadFile(redisdbPasswordFile)
 			if err != nil {
@@ -53,7 +53,7 @@ func Set() {
 				RedisdbInfo.Password = string(redisPassword)
 			}
 		} else {
-			RedisdbInfo.Password = os.Getenv("REDISDB_PASSWORD")
+			RedisdbInfo.Password = os.Getenv("REDIS_PASSWORD")
 		}
 	}
 

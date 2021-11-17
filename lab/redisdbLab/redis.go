@@ -2,6 +2,7 @@ package redisdbLab
 
 import (
 	"GoLab/database/redisdb"
+	"GoLab/guard"
 	"fmt"
 )
 
@@ -12,9 +13,13 @@ func GetChannels(patternA ...string) {
 		pattern = patternA[0]
 	}
 
-	channels := redisdb.DB.PubSubChannels(redisdb.CTX, pattern)
-	for i, v := range channels.Val() {
-		fmt.Println(i, v)
+	channels, err := redisdb.DB.PubSubChannels(redisdb.CTX, pattern).Result()
+	if err != nil {
+		guard.Logger.Panic(err.Error())
+	} else {
+		for i, v := range channels {
+			fmt.Println(i, v)
+		}
 	}
 
 }

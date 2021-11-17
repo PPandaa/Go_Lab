@@ -1,6 +1,7 @@
 package redisdb
 
 import (
+	"GoLab/guard"
 	"fmt"
 
 	"github.com/go-redis/redis/v8"
@@ -8,20 +9,20 @@ import (
 
 func Subscriber() {
 
-	channels := []string{"TopicA"}
-	sub := DB.Subscribe(CTX, channels...)
+	channels := []string{"*"}
+	sub := DB.PSubscribe(CTX, channels...)
 	for {
 		msg, err := sub.ReceiveMessage(CTX)
 		if err != nil {
-			panic(err)
+			guard.Logger.Panic(err.Error())
 		}
 		subHandler(msg)
 	}
 
 }
 
-func subHandler(subMsg *redis.Message) {
+func subHandler(msg *redis.Message) {
 
-	fmt.Println(subMsg)
+	fmt.Println(msg)
 
 }
