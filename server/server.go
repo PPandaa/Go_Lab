@@ -4,6 +4,10 @@ import (
 	"GoLab/tool"
 	"fmt"
 	"os"
+	"strings"
+	"time"
+
+	"github.com/bitly/go-simplejson"
 )
 
 const (
@@ -14,13 +18,18 @@ const (
 )
 
 var (
+	IsEnsaasServiceEnable = false
+
 	Location string
 
-	Datacenter string
-	Workspace  string
-	Cluster    string
-	Namespace  string
-	External   string
+	Datacenter    string
+	Workspace     string
+	Cluster       string
+	Namespace     string
+	External      string
+	EnsaasService *simplejson.Json
+
+	LastWaconnTime time.Time
 )
 
 func Set() {
@@ -35,6 +44,14 @@ func Set() {
 
 	if !tool.IsEmptyString(Datacenter) {
 		Location = Cloud
+
+		ensaasService := os.Getenv("ENSAAS_SERVICES")
+		if !tool.IsEmptyString(ensaasService) {
+			tempReader := strings.NewReader(ensaasService)
+			EnsaasService, _ = simplejson.NewFromReader(tempReader)
+			IsEnsaasServiceEnable = true
+		}
+
 		logString += "  Location: " + Location + "\n" +
 			"  Datacenter: " + Datacenter + "\n" +
 			"  Workspace: " + Workspace + "\n" +
