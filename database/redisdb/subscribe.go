@@ -1,8 +1,9 @@
 package redisdb
 
 import (
-	"GoLab/guard"
 	"fmt"
+
+	"GoLab/guard"
 
 	"github.com/go-redis/redis/v8"
 )

@@ -1,11 +1,12 @@
 package dependency
 
 import (
-	"GoLab/server"
-	"GoLab/tool"
 	"fmt"
 	"net/url"
 	"os"
+
+	"GoLab/server"
+	"GoLab/tool"
 )
 
 var (

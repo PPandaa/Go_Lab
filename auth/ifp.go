@@ -1,14 +1,16 @@
 package auth
 
 import (
-	"GoLab/dependency"
-	"GoLab/server"
 	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/http"
 	"strings"
 	"time"
+
+	"GoLab/dependency"
+	"GoLab/guard"
+	"GoLab/server"
 
 	"github.com/bitly/go-simplejson"
 )
@@ -36,7 +38,7 @@ func CloudIFPToken() {
 		response, _ := httpClient.Do(request)
 		m, _ := simplejson.NewFromReader(response.Body)
 		IFPToken = m.Get("clientSecret").MustString()
-		fmt.Println("Cloud IFP Token:", IFPToken)
+		guard.Logger.Info("Cloud IFP Token: " + IFPToken)
 		time.Sleep(60 * time.Minute)
 	}
 
@@ -88,7 +90,7 @@ func OnPremiseIFPToken() {
 		} else {
 			IFPToken = ifpToken + ";" + eiToken
 		}
-		fmt.Println("On-Premise IFP Token:", IFPToken)
+		guard.Logger.Info("On-Premise IFP Token: " + IFPToken)
 		time.Sleep(60 * time.Minute)
 	}
 
