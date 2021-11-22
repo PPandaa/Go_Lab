@@ -10,11 +10,13 @@ import (
 )
 
 var (
-	SSO_API_URL               *url.URL
-	IFP_DESK_API_URL          *url.URL
-	IFP_DESK_CLIENT_SECRET    string
-	IFP_DESK_USERNAME         string
-	IFP_DESK_PASSWORD         string
+	SSO_API_URL *url.URL
+
+	IFP_DESK_API_URL       *url.URL
+	IFP_DESK_CLIENT_SECRET string
+	IFP_DESK_USERNAME      string
+	IFP_DESK_PASSWORD      string
+
 	DAEMON_DATABROKER_API_URL *url.URL
 )
 

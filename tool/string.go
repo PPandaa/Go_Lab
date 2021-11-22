@@ -22,6 +22,7 @@ func IsStringExist(target string, array []string) bool {
 			return true
 		}
 	}
+
 	return false
 
 }
@@ -30,6 +31,7 @@ func ConvertStringToMap(str string) map[string]interface{} {
 
 	strMap := make(map[string]interface{})
 	json.Unmarshal([]byte(str), &strMap)
+
 	return strMap
 
 }
