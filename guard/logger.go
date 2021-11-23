@@ -12,6 +12,7 @@ func getEncoder() zapcore.Encoder {
 	encoderConfig := zap.NewProductionEncoderConfig()
 	encoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder
 	encoderConfig.EncodeLevel = zapcore.CapitalLevelEncoder
+
 	return zapcore.NewJSONEncoder(encoderConfig)
 
 }
@@ -19,6 +20,7 @@ func getEncoder() zapcore.Encoder {
 func getWriteSyncer() zapcore.WriteSyncer {
 
 	writeSyncer, _, _ := zap.Open([]string{"stderr"}...)
+
 	return writeSyncer
 
 }

@@ -16,11 +16,10 @@ import (
 
 var (
 	IsRedisEnable = false
-
-	DB          *redis.Client
-	CTX         = context.Background()
-	valueFrom   string
-	RedisdbInfo infoStruct
+	Client        *redis.Client
+	CTX           = context.Background()
+	valueFrom     string
+	RedisdbInfo   infoStruct
 )
 
 type infoStruct struct {
@@ -70,11 +69,11 @@ func Set() {
 func Connect() {
 
 	if !tool.IsEmptyString(RedisdbInfo.URL) {
-		DB = redis.NewClient(&redis.Options{
+		Client = redis.NewClient(&redis.Options{
 			Addr:     RedisdbInfo.URL,
 			Password: RedisdbInfo.Password,
 		})
-		_, err := DB.Ping(CTX).Result()
+		_, err := Client.Ping(CTX).Result()
 		if err != nil {
 			guard.Logger.Fatal("Redis Login Fail -> " + err.Error())
 		} else {

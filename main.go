@@ -18,9 +18,12 @@ func init() {
 	// server.Set()
 	// mongodb.Set()
 	// redisdb.Set()
+	// miniodb.Set()
 	// dependency.Set()
+
 	// mongodb.Connect()
 	// redisdb.Connect()
+	// miniodb.Connect()
 
 	// socketLab.Set()
 

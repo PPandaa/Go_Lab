@@ -13,7 +13,7 @@ func GetChannels(patternA ...string) {
 		pattern = patternA[0]
 	}
 
-	channels, err := redisdb.DB.PubSubChannels(redisdb.CTX, pattern).Result()
+	channels, err := redisdb.Client.PubSubChannels(redisdb.CTX, pattern).Result()
 	if err != nil {
 		guard.Logger.Panic(err.Error())
 	} else {

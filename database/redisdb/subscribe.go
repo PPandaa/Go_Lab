@@ -11,7 +11,7 @@ import (
 func Subscriber() {
 
 	channels := []string{"*"}
-	sub := DB.PSubscribe(CTX, channels...)
+	sub := Client.PSubscribe(CTX, channels...)
 	for {
 		msg, err := sub.ReceiveMessage(CTX)
 		if err != nil {

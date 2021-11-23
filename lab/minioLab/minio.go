@@ -1,0 +1,5 @@
+package minioLab
+
+func Run() {
+
+}

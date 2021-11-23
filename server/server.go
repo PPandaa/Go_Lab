@@ -20,17 +20,14 @@ const (
 
 var (
 	IsEnsaasServiceEnable = false
-
-	Location string
-
-	Datacenter    string
-	Workspace     string
-	Cluster       string
-	Namespace     string
-	External      string
-	EnsaasService *simplejson.Json
-
-	LastWaconnTime time.Time
+	Location              string
+	Datacenter            string
+	Workspace             string
+	Cluster               string
+	Namespace             string
+	External              string
+	EnsaasService         *simplejson.Json
+	LastWaconnTime        time.Time
 )
 
 func Set() {

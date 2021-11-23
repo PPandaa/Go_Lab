@@ -65,11 +65,13 @@ func Set() {
 			MongodbInfo.Password = os.Getenv("MONGODB_PASSWORD")
 		}
 	}
+
 	logString += "  FROM: " + valueFrom + "\n" +
 		"    URL: " + MongodbInfo.URL + "\n" +
 		"    Database: " + MongodbInfo.Database + "\n" +
 		"    Username: " + MongodbInfo.Username + "\n" +
 		"    Password: " + MongodbInfo.Password + "\n"
+
 	fmt.Print(logString + "\n")
 
 }
@@ -100,6 +102,7 @@ func Connect() {
 		}
 		DB = Session.DB(MongodbInfo.Database)
 	}
+
 	guard.Logger.Info("MongoDB Connect Success")
 
 }
