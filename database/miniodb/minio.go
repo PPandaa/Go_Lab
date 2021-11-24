@@ -17,6 +17,7 @@ var (
 	Client        *minio.Client
 	valueFrom     string
 	MinioDBInfo   InfoStruct
+	Bucket        = "peter-test"
 )
 
 type InfoStruct struct {
@@ -72,27 +73,25 @@ func Connect() {
 			guard.Logger.Fatal("MinIO Connect Fail -> " + err.Error())
 		} else {
 			guard.Logger.Info("MinIO Connect Success")
-			creatBucket()
+			Client.MakeBucket(Bucket, "")
 		}
 	}
 
 }
 
-func creatBucket() {
+// func creatBucket() {
 
-	bucket := "peter-test"
-	Client.MakeBucket(bucket, "")
+// 	bucket := "peter-test"
+// 	err := Client.MakeBucket(bucket, "")
+// 	if err != nil {
+// 		exists, errBucketExists := Client.BucketExists(bucket)
+// 		if errBucketExists == nil && exists {
+// 			guard.Logger.Info(bucket + " Bucket Already Exist")
+// 		} else {
+// 			guard.Logger.Fatal(err.Error())
+// 		}
+// 	} else {
+// 		guard.Logger.Info(bucket + " Bucket Created")
+// 	}
 
-	// err := Client.MakeBucket(bucket, "")
-	// if err != nil {
-	// 	exists, errBucketExists := Client.BucketExists(bucket)
-	// 	if errBucketExists == nil && exists {
-	// 		guard.Logger.Info(bucket + " Bucket Already Exist")
-	// 	} else {
-	// 		guard.Logger.Fatal(err.Error())
-	// 	}
-	// } else {
-	// 	guard.Logger.Info(bucket + " Bucket Created")
-	// }
-
-}
+// }

@@ -1,5 +1,4 @@
 package minioLab
 
 func Run() {
-
 }
