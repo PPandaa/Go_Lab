@@ -15,7 +15,6 @@ import (
 
 func RegisterOutbound() {
 
-	httpClient := &http.Client{}
 	content := map[string]interface{}{"name": server.ServiceNameC, "sourceId": "scada_" + server.ServiceNameL, "url": dependency.DAEMON_DATABROKER_API_URL.String(), "active": true}
 	variable := map[string]interface{}{"input": content}
 	httpRequestBody, _ := json.Marshal(map[string]interface{}{
@@ -29,11 +28,9 @@ func RegisterOutbound() {
 		request.Header.Set("cookie", auth.IFPToken)
 	}
 	request.Header.Set("Content-Type", "application/json")
-	response, _ := httpClient.Do(request)
+	response, _ := server.HttpClient.Do(request)
 	if response.StatusCode == 200 {
 		dependency.IsDeskEnable = true
-	} else {
-		dependency.IsDeskEnable = false
 	}
 	m, _ := simplejson.NewFromReader(response.Body)
 	if len(m.Get("errors").MustArray()) == 0 {

@@ -3,7 +3,6 @@ package auth
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strings"
 	"time"
@@ -25,7 +24,6 @@ func CloudIFPToken() {
 		timestamp := time.Now()
 		options := &newSRPTokenOptions{Timestamp: &timestamp}
 		result := newSrpToken("OEE", options)
-		httpClient := &http.Client{}
 		request, _ := http.NewRequest("GET", dependency.SSO_API_URL.String()+"/clients/OEE", nil)
 		request.Header.Set("Content-Type", "application/json")
 		request.Header.Set("X-Auth-SRPToken", result)
@@ -35,7 +33,7 @@ func CloudIFPToken() {
 		q.Add("namespace", server.Namespace)
 		q.Add("serviceName", "OEE")
 		request.URL.RawQuery = q.Encode()
-		response, _ := httpClient.Do(request)
+		response, _ := server.HttpClient.Do(request)
 		m, _ := simplejson.NewFromReader(response.Body)
 		IFPToken = m.Get("clientSecret").MustString()
 		guard.Logger.Info("Cloud IFP Token: " + IFPToken)
@@ -47,29 +45,28 @@ func CloudIFPToken() {
 func OnPremiseIFPToken() {
 
 	for {
-		httpClient := &http.Client{}
 		content := map[string]string{"username": dependency.IFP_DESK_USERNAME, "password": dependency.IFP_DESK_PASSWORD}
 		variable := map[string]interface{}{"input": content}
 		httpRequestBody, _ := json.Marshal(map[string]interface{}{
-			"query":     "mutation signIn($input: SignInInput!) {   signIn(input: $input) {     user {       name       __typename     }     __typename   } }",
+			"query":     "mutation signIn($input: SignInInput!) { signIn(input: $input) { user { name __typename } __typename } }",
 			"variables": variable,
 		})
 		request, _ := http.NewRequest("POST", dependency.IFP_DESK_API_URL.String(), bytes.NewBuffer(httpRequestBody))
 		request.Header.Set("Content-Type", "application/json")
-		response, _ := httpClient.Do(request)
+		response, _ := server.HttpClient.Do(request)
 		m, _ := simplejson.NewFromReader(response.Body)
 		for {
 			if len(m.Get("errors").MustArray()) == 0 {
 				break
 			} else {
-				fmt.Println("retry refreshToken")
+				guard.Logger.Info("Retry OnPremiseIFPToken")
 				httpRequestBody, _ = json.Marshal(map[string]interface{}{
 					"query":     "mutation signIn($input: SignInInput!) { signIn(input: $input) { user { name __typename } __typename } }",
 					"variables": variable,
 				})
 				request, _ = http.NewRequest("POST", dependency.IFP_DESK_API_URL.String(), bytes.NewBuffer(httpRequestBody))
 				request.Header.Set("Content-Type", "application/json")
-				response, _ = httpClient.Do(request)
+				response, _ = server.HttpClient.Do(request)
 				m, _ = simplejson.NewFromReader(response.Body)
 				time.Sleep(6 * time.Minute)
 			}

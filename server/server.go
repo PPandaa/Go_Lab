@@ -2,6 +2,7 @@ package server
 
 import (
 	"fmt"
+	"net/http"
 	"os"
 	"strings"
 	"time"
@@ -28,6 +29,7 @@ var (
 	External              string
 	EnsaasService         *simplejson.Json
 	LastWaconnTime        time.Time
+	HttpClient            = &http.Client{}
 )
 
 func Set() {

@@ -17,9 +17,9 @@ import (
 var (
 	IsRedisEnable = false
 	Client        *redis.Client
-	CTX           = context.Background()
-	valueFrom     string
 	RedisdbInfo   infoStruct
+	ctx           = context.Background()
+	valueFrom     string
 )
 
 type infoStruct struct {
@@ -73,7 +73,7 @@ func Connect() {
 			Addr:     RedisdbInfo.URL,
 			Password: RedisdbInfo.Password,
 		})
-		_, err := Client.Ping(CTX).Result()
+		_, err := Client.Ping(ctx).Result()
 		if err != nil {
 			guard.Logger.Fatal("Redis Login Fail -> " + err.Error())
 		} else {

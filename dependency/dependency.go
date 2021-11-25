@@ -1,7 +1,7 @@
 package dependency
 
 var (
-	IsDeskEnable bool
+	IsDeskEnable = false
 )
 
 func Set() {

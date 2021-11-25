@@ -11,9 +11,9 @@ import (
 func Subscriber() {
 
 	channels := []string{"*"}
-	sub := Client.PSubscribe(CTX, channels...)
+	sub := Client.PSubscribe(ctx, channels...)
 	for {
-		msg, err := sub.ReceiveMessage(CTX)
+		msg, err := sub.ReceiveMessage(ctx)
 		if err != nil {
 			guard.Logger.Panic(err.Error())
 		}

@@ -1,9 +1,13 @@
 package redisdbLab
 
-import "GoLab/database/redisdb"
+import (
+	"GoLab/database/redisdb"
+	"context"
+)
 
 func Pub() {
 
-	redisdb.Client.Publish(redisdb.CTX, "III", "Peter")
+	ctx := context.Background()
+	redisdb.Client.Publish(ctx, "III", "Peter")
 
 }
