@@ -2,10 +2,10 @@ package redisdb
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"os"
-	"strconv"
 
 	"GoLab/guard"
 	"GoLab/server"
@@ -35,7 +35,7 @@ func Set() {
 		if server.IsEnsaasServiceEnable && len(server.EnsaasService.Get("redis").MustArray()) != 0 {
 			valueFrom = "ENSAAS_SERVICE"
 			redisdb := server.EnsaasService.Get("redis").GetIndex(0).Get("credentials").MustMap()
-			RedisdbInfo.URL = redisdb["host"].(string) + ":" + strconv.Itoa(redisdb["port"].(int))
+			RedisdbInfo.URL = redisdb["host"].(string) + ":" + redisdb["port"].(json.Number).String()
 			RedisdbInfo.Password = redisdb["password"].(string)
 		} else {
 			valueFrom = "ENV"
