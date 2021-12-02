@@ -71,7 +71,6 @@ func Set() {
 		"    Database: " + MongodbInfo.Database + "\n" +
 		"    Username: " + MongodbInfo.Username + "\n" +
 		"    Password: " + MongodbInfo.Password + "\n"
-
 	fmt.Print(logString + "\n")
 
 }

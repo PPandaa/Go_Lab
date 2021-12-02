@@ -12,7 +12,7 @@ func init() {
 
 	err := godotenv.Load("local.env")
 	if err != nil {
-		guard.Logger.Fatal("Error Loading ENV File: " + err.Error())
+		guard.Logger.Fatal("Loading ENV File: " + err.Error())
 	}
 
 	// server.Set()

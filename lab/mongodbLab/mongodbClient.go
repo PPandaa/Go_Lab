@@ -75,3 +75,14 @@ func Remove() {
 	}
 
 }
+
+func RemoveAllCollection() {
+
+	collectionNames, _ := mongodb.DB.CollectionNames()
+	for _, collectionName := range collectionNames {
+		fmt.Println("Remove Collection ->", collectionName)
+		collection := mongodb.DB.C(collectionName)
+		collection.DropCollection()
+	}
+
+}
