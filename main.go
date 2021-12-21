@@ -34,6 +34,7 @@ func main() {
 	// wg.Add(1)
 
 	guard.Logger.Info("GoLab Server Active")
+	// mongodbLab.RemoveAllCollection()
 
 	// wg.Wait()
 

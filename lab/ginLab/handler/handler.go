@@ -1,30 +1,39 @@
-package ginLab
+package handler
 
 import (
+	"GoLab/server"
 	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-func hello(c *gin.Context) {
+func HealthCheck(c *gin.Context) {
 
-	// c.JSON(http.StatusOK, gin.H{"message": "This is Gin Lab"})
-	c.String(http.StatusOK, "This is Gin Lab")
+	c.JSON(http.StatusOK, gin.H{"message": server.ServiceNameL + "-api"})
+
 }
 
-func showParameter(c *gin.Context) {
+func Hello(c *gin.Context) {
+
+	c.JSON(http.StatusOK, gin.H{"message": "This is Gin Lab"})
+	// c.String(http.StatusOK, "This is Gin Lab")
+}
+
+func ShowParameter(c *gin.Context) {
 
 	user := c.Param("user")
-	c.String(http.StatusOK, "User: %s", user)
+	c.JSON(http.StatusOK, gin.H{"Parameter user": user})
+	// c.String(http.StatusOK, "User: %s", user)
 
 }
 
-func showQuery(c *gin.Context) {
+func ShowQuery(c *gin.Context) {
 
 	// user := c.Query("user")
 	user := c.DefaultQuery("user", "Peter")
-	c.String(http.StatusOK, "User: %s", user)
+	c.JSON(http.StatusOK, gin.H{"Query user": user})
+	// c.String(http.StatusOK, "User: %s", user)
 
 }
 
@@ -36,7 +45,7 @@ func showQuery(c *gin.Context) {
 // 	return fmt.Sprintf("A: %s", r.A)
 // }
 
-func showBody(c *gin.Context) {
+func ShowBody(c *gin.Context) {
 
 	var body map[string]interface{}
 	err := c.Bind(&body)
