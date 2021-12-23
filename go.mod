@@ -16,10 +16,10 @@ require (
 	github.com/labstack/echo/v4 v4.6.1
 	github.com/minio/minio-go v6.0.14+incompatible
 	github.com/mitchellh/go-homedir v1.1.0
-	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/rs/cors v1.8.0
 	github.com/spf13/cobra v1.2.1
 	github.com/spf13/viper v1.9.0
+	go.etcd.io/etcd/client/v3 v3.5.1
 	go.uber.org/atomic v1.9.0 // indirect
 	go.uber.org/multierr v1.7.0 // indirect
 	go.uber.org/zap v1.19.1
