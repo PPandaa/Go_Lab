@@ -1,3 +1,5 @@
 package mongodb
 
-const ()
+const (
+	Test = "iii.golab.test"
+)
