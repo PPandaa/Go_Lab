@@ -20,13 +20,13 @@ const (
 )
 
 var (
-	IsEnsaasServiceEnable = false
 	Location              string
 	Datacenter            string
 	Workspace             string
 	Cluster               string
 	Namespace             string
 	External              string
+	IsEnsaasServiceEnable = false
 	EnsaasService         *simplejson.Json
 	LastWaconnTime        time.Time
 	HttpClient            = &http.Client{}
@@ -44,6 +44,12 @@ func Set() {
 
 	if !tool.IsEmptyString(Datacenter) {
 		Location = Cloud
+		logString += "  Location: " + Location + "\n" +
+			"  Datacenter: " + Datacenter + "\n" +
+			"  Workspace: " + Workspace + "\n" +
+			"  Cluster: " + Cluster + "\n" +
+			"  Namespace: " + Namespace + "\n" +
+			"  External: " + External + "\n"
 
 		ensaasService := os.Getenv("ENSAAS_SERVICES")
 		if !tool.IsEmptyString(ensaasService) {
@@ -51,13 +57,6 @@ func Set() {
 			EnsaasService, _ = simplejson.NewFromReader(tempReader)
 			IsEnsaasServiceEnable = true
 		}
-
-		logString += "  Location: " + Location + "\n" +
-			"  Datacenter: " + Datacenter + "\n" +
-			"  Workspace: " + Workspace + "\n" +
-			"  Cluster: " + Cluster + "\n" +
-			"  Namespace: " + Namespace + "\n" +
-			"  External: " + External + "\n"
 	} else {
 		Location = OnPremise
 		logString += "  Location: " + Location + "\n"
