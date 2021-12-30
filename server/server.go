@@ -32,7 +32,7 @@ var (
 	HttpClient            = &http.Client{}
 )
 
-func Set() {
+func Check() {
 
 	logString := "Server Info." + "\n"
 

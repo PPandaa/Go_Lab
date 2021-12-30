@@ -9,6 +9,7 @@ require (
 	github.com/gin-gonic/gin v1.7.4
 	github.com/go-ini/ini v1.64.0 // indirect
 	github.com/go-redis/redis/v8 v8.11.4
+	github.com/google/uuid v1.3.0
 	github.com/googollee/go-socket.io v1.6.1
 	github.com/gorilla/mux v1.8.0
 	github.com/joho/godotenv v1.4.0

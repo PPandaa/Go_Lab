@@ -1,12 +1,12 @@
 package main
 
 import (
+	"GoLab/database/mongodb"
 	"GoLab/guard"
+	"GoLab/server"
 
 	"github.com/joho/godotenv"
 )
-
-// var wg sync.WaitGroup
 
 func init() {
 
@@ -15,19 +15,22 @@ func init() {
 		guard.Logger.Fatal("Loading ENV File: " + err.Error())
 	}
 
-	// server.Set()
-	// mongodb.Set()
+	server.Check()
+
+	mongodb.Set()
 	// redisdb.Set()
 	// miniodb.Set()
 	// dependency.Set()
 
-	// mongodb.Connect()
+	mongodb.Connect()
 	// redisdb.Connect()
 	// miniodb.Connect()
 
 	// socketLab.Set()
 
 }
+
+// var wg sync.WaitGroup
 
 func main() {
 
