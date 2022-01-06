@@ -23,6 +23,6 @@ func FromInterfaceToStruct() {
 	var result User
 	temp, _ := json.Marshal(me)
 	json.Unmarshal(temp, &result)
-	fmt.Println(result)
+	fmt.Printf("%+v\n", result)
 
 }
