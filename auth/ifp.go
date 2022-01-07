@@ -18,6 +18,24 @@ var (
 	IFPToken string
 )
 
+func GetServiceSecret() map[string]interface{} {
+
+	var secret map[string]interface{}
+
+	for {
+		request, _ := http.NewRequest("GET", dependency.ETCD_BROKER_API_URL.String()+"/service", nil)
+		response, _ := server.HttpClient.Do(request)
+		if response.StatusCode == 200 {
+			m, _ := simplejson.NewFromReader(response.Body)
+			secret = m.MustMap()
+			break
+		}
+	}
+
+	return secret
+
+}
+
 func CloudIFPToken() {
 
 	for {

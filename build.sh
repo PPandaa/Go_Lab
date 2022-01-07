@@ -9,9 +9,9 @@ MESSAGE="New Version 1.0.0.0"
 # echo "[`date "+%Y-%m-%d %H:%M:%S"`] dev => {$MESSAGE}" >> ImageInfo.txt
 
 # docker build -t $DOCKER_REPO:$VERSION .
+
+# docker tag $DOCKER_REPO:dev $DOCKER_REPO:$VERSION
 # docker push $DOCKER_REPO:$VERSION
-# echo "[`date "+%Y-%m-%d %H:%M:%S"`] $VERSION => {$MESSAGE}" >> ImageInfo.txt
-
-
-docker rmi -f $(docker images | grep $DOCKER_REPO | awk '{print $3}')
-docker image prune -f
+# echo "[`date "+%Y-%m-%d %H:%M:%S"`] $VERSION" >> ImageInfo.txt
+# docker rmi -f $(docker images | grep $DOCKER_REPO | awk '{print $3}')
+# docker image prune -f

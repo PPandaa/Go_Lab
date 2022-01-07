@@ -22,6 +22,7 @@ var (
 	IFP_DESK_PASSWORD         string
 	UI_URL                    *url.URL
 	API_URL                   *url.URL
+	ETCD_BROKER_API_URL       *url.URL
 	DAEMON_DATABROKER_API_URL *url.URL
 )
 
@@ -80,6 +81,14 @@ func setENV() {
 		API_URL, _ = url.Parse(api_url)
 	}
 	logString += "  " + server.ServiceNameC + "_API_URL: " + API_URL.String() + "\n"
+
+	etcd_broker_api_url := os.Getenv(server.ServiceNameC + "_ETCD_BROKER_API_URL")
+	if len(etcd_broker_api_url) != 0 {
+		ETCD_BROKER_API_URL, _ = url.Parse(etcd_broker_api_url)
+	} else {
+		ETCD_BROKER_API_URL, _ = url.Parse("https://" + server.ServiceNameL + "-etcd-broker-" + server.Namespace + "-" + server.Cluster + "." + server.External)
+	}
+	logString += "  " + server.ServiceNameC + "_ETCD_BROKER_API_URL: " + ETCD_BROKER_API_URL.String() + "\n"
 
 	daemon_databroker_api_url := os.Getenv(server.ServiceNameC + "_DAEMON_DATABROKER_API_URL")
 	if tool.IsEmptyString(daemon_databroker_api_url) {
