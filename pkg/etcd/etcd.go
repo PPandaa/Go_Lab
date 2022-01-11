@@ -1,10 +1,11 @@
 package etcd
 
 import (
+	"GoLab/dependency"
+	"GoLab/guard"
+
 	"context"
 	"time"
-
-	"GoLab/guard"
 
 	clientv3 "go.etcd.io/etcd/client/v3"
 	"go.etcd.io/etcd/client/v3/concurrency"
@@ -19,15 +20,9 @@ type EtcdConn struct {
 	Password string
 }
 
-func (c *EtcdConn) new(enable, host, port, username, password string) {
+func (c *EtcdConn) new(enable bool, host, port, username, password string) {
 
-	var e bool
-	if enable == "true" {
-		e = true
-	} else if enable == "false" {
-		e = false
-	}
-	c.Enable = e
+	c.Enable = enable
 	c.Host = host
 	c.Port = port
 	c.Username = username
@@ -44,6 +39,7 @@ type EtcdCli struct {
 	serviceName    string
 	serviceID      string
 	serviceVersion string
+	serviceSecret  string
 
 	rootKV  clientv3.KV
 	watcher clientv3.Watcher
@@ -62,8 +58,7 @@ func (cli *EtcdCli) connect(ec *EtcdConn) *clientv3.Client {
 	if err != nil {
 		guard.Logger.Error("ETCD Connect Failed: " + err.Error())
 	}
-	cli.client = client
-	guard.Logger.Info("ETCD Connect Success")
+	// guard.Logger.Info("ETCD Connect Success")
 	return client
 
 }
@@ -98,14 +93,9 @@ func (cli *EtcdCli) do() {
 
 }
 
-func (cli *EtcdCli) start(etcdConn *EtcdConn, isApp bool, serviceName string, serviceVersion string) {
+func (cli *EtcdCli) start(namespace string, serviceName string, serviceVersion string) {
 
-	cli.connect(etcdConn)
-	if isApp {
-		cli.namespace = "iapps/"
-	} else {
-		cli.namespace = "services/"
-	}
+	cli.namespace = namespace
 	cli.serviceName = serviceName
 	cli.serviceVersion = serviceVersion
 	cli.serviceID = time.Now().Format(time.RFC3339)
@@ -126,7 +116,7 @@ func (cli *EtcdCli) startElection() {
 			if err != nil {
 				guard.Logger.Error("ETCD Failed To Campaign: " + err.Error())
 			} else {
-				guard.Logger.Info("ETCD Become The Leader!")
+				// guard.Logger.Info("ETCD Become The Leader!")
 				break
 			}
 		}
@@ -168,4 +158,31 @@ func (cli *EtcdCli) Close() {
 		}
 	}
 
+}
+
+func (cli *EtcdCli) watchServiceSecrets() {
+	key := "service-secrets" + "/" + cli.serviceName + "/" + cli.serviceVersion + "/" + cli.serviceID + "/" + cli.serviceName
+	// fmt.Println("etcd watch service secrets key:", key)
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	watchChan := cli.watcher.Watch(ctx, key)
+	for watchResponse := range watchChan {
+		// fmt.Println("etcd detecting service secrets...")
+		//if manually add a key in etcd(something like service-secrets/ifps-xporter/1.2.0/2021-11-08T18:53:42+08:00/ifps-xporter), will enter this
+		for _, event := range watchResponse.Events {
+			switch event.Type.String() {
+			case "PUT":
+				cli.serviceSecret = string(event.Kv.Value)
+				dependency.ServiceSecret = cli.serviceSecret
+				guard.Logger.Info("ServiceSecret: " + dependency.ServiceSecret)
+				// fmt.Printf("watch service secret PUT-> value:%s, create revision:%d, mod revision:%d \n", string(event.Kv.Value), event.Kv.CreateRevision, event.Kv.ModRevision)
+			case "DELETE":
+				guard.Logger.Info("DELETE ServiceSecret")
+			default:
+				guard.Logger.Error("unknown event -> " + event.Type.String())
+				// fmt.Printf("watch service secret unknown event-> %s \n", event.Type.String())
+			}
+		}
+		// fmt.Println("etcd detecting service secrets ok...")
+	}
 }

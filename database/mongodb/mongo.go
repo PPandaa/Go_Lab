@@ -1,14 +1,14 @@
 package mongodb
 
 import (
+	"GoLab/guard"
+	"GoLab/server"
+	"GoLab/tool"
+
 	"fmt"
 	"io/ioutil"
 	"os"
 	"time"
-
-	"GoLab/guard"
-	"GoLab/server"
-	"GoLab/tool"
 
 	"gopkg.in/mgo.v2"
 )

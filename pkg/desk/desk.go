@@ -1,16 +1,16 @@
 package desk
 
 import (
-	"bytes"
-	"encoding/json"
-	"net/http"
-	"time"
-
 	"GoLab/auth"
 	"GoLab/database/mongodb"
 	"GoLab/dependency"
 	"GoLab/guard"
 	"GoLab/server"
+
+	"bytes"
+	"encoding/json"
+	"net/http"
+	"time"
 
 	"github.com/bitly/go-simplejson"
 	"gopkg.in/mgo.v2/bson"
@@ -61,9 +61,6 @@ func RegisterOutbound() {
 	}
 	request.Header.Set("Content-Type", "application/json")
 	response, _ := server.HttpClient.Do(request)
-	if response.StatusCode == 200 {
-		dependency.IsDeskEnable = true
-	}
 	m, _ := simplejson.NewFromReader(response.Body)
 	if len(m.Get("errors").MustArray()) == 0 {
 		guard.Logger.Info("Register Outbound " + server.ServiceNameC + " Success")

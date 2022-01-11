@@ -1,15 +1,15 @@
 package auth
 
 import (
+	"GoLab/dependency"
+	"GoLab/guard"
+	"GoLab/server"
+
 	"bytes"
 	"encoding/json"
 	"net/http"
 	"strings"
 	"time"
-
-	"GoLab/dependency"
-	"GoLab/guard"
-	"GoLab/server"
 
 	"github.com/bitly/go-simplejson"
 )

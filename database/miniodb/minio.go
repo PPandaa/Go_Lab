@@ -1,13 +1,13 @@
 package miniodb
 
 import (
+	"GoLab/guard"
+	"GoLab/tool"
+
 	"fmt"
 	"os"
 	"strconv"
 	"strings"
-
-	"GoLab/guard"
-	"GoLab/tool"
 
 	"github.com/minio/minio-go"
 )
