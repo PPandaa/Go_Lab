@@ -10,7 +10,7 @@ import (
 
 func HealthCheck(c *gin.Context) {
 
-	c.JSON(http.StatusOK, gin.H{"message": server.ServiceNameL + "-api"})
+	c.JSON(http.StatusOK, gin.H{"message": server.AppNameL + "-" + server.ServiceName})
 
 }
 

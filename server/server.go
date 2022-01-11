@@ -13,10 +13,11 @@ import (
 )
 
 const (
-	ServiceNameC = "IFPS_III"
-	ServiceNameL = "ifps-iii"
-	Cloud        = "Cloud"
-	OnPremise    = "On-Premise"
+	AppNameC    = "IFPS_III"
+	AppNameL    = "ifps-iii"
+	ServiceName = "lab"
+	Cloud       = "Cloud"
+	OnPremise   = "On-Premise"
 )
 
 var (

@@ -62,41 +62,41 @@ func from_env() {
 	AppNameL = os.Getenv("IAPP_NAME_LOWER")
 	logString += "  IAPP_NAME_LOWER: " + AppNameL + "\n"
 
-	ui_url := os.Getenv(server.ServiceNameC + "_UI_URL")
+	ui_url := os.Getenv(server.AppNameC + "_UI_URL")
 	if tool.IsEmptyString(ui_url) {
-		UI_URL, _ = url.Parse("https://" + server.ServiceNameL + "-" + server.Namespace + "-" + server.Cluster + "." + server.External)
+		UI_URL, _ = url.Parse("https://" + server.AppNameL + "-" + server.Namespace + "-" + server.Cluster + "." + server.External)
 	} else {
 		UI_URL, _ = url.Parse(ui_url)
 	}
 	Is_UI_Reachable = tool.IsSiteReachable(UI_URL.String())
 	logString += "  UI_URL: " + UI_URL.String() + " ..... " + strconv.FormatBool(Is_UI_Reachable) + "\n"
 
-	api_url := os.Getenv(server.ServiceNameC + "_API_URL")
+	api_url := os.Getenv(server.AppNameC + "_API_URL")
 	if tool.IsEmptyString(api_url) {
-		API_URL, _ = url.Parse("https://" + server.ServiceNameL + "-" + server.Namespace + "-api-" + server.Cluster + "." + server.External)
+		API_URL, _ = url.Parse("https://" + server.AppNameL + "-" + server.Namespace + "-api-" + server.Cluster + "." + server.External)
 	} else {
 		API_URL, _ = url.Parse(api_url)
 	}
 	Is_API_Reachable = tool.IsSiteReachable(API_URL.String())
 	logString += "  API_URL: " + API_URL.String() + " ..... " + strconv.FormatBool(Is_API_Reachable) + "\n"
 
-	etcd_broker_api_url := os.Getenv(server.ServiceNameC + "_ETCD_BROKER_API_URL")
+	etcd_broker_api_url := os.Getenv(server.AppNameC + "_ETCD_BROKER_API_URL")
 	if len(etcd_broker_api_url) != 0 {
 		ETCD_BROKER_API_URL, _ = url.Parse(etcd_broker_api_url)
 	} else {
-		ETCD_BROKER_API_URL, _ = url.Parse("https://" + server.ServiceNameL + "-etcd-broker-" + server.Namespace + "-" + server.Cluster + "." + server.External)
+		ETCD_BROKER_API_URL, _ = url.Parse("https://" + server.AppNameL + "-etcd-broker-" + server.Namespace + "-" + server.Cluster + "." + server.External)
 	}
 	Is_ETCD_BROKER_API_Reachable = tool.IsSiteReachable(ETCD_BROKER_API_URL.String())
-	logString += "  " + server.ServiceNameC + "_ETCD_BROKER_API_URL: " + ETCD_BROKER_API_URL.String() + " ..... " + strconv.FormatBool(Is_ETCD_BROKER_API_Reachable) + "\n"
+	logString += "  " + server.AppNameC + "_ETCD_BROKER_API_URL: " + ETCD_BROKER_API_URL.String() + " ..... " + strconv.FormatBool(Is_ETCD_BROKER_API_Reachable) + "\n"
 
-	daemon_databroker_api_url := os.Getenv(server.ServiceNameC + "_DAEMON_DATABROKER_API_URL")
+	daemon_databroker_api_url := os.Getenv(server.AppNameC + "_DAEMON_DATABROKER_API_URL")
 	if tool.IsEmptyString(daemon_databroker_api_url) {
-		DAEMON_DATABROKER_API_URL, _ = url.Parse("https://" + server.ServiceNameL + "-daemon-databroker-" + server.Namespace + "-" + server.Cluster + "." + server.External)
+		DAEMON_DATABROKER_API_URL, _ = url.Parse("https://" + server.AppNameL + "-daemon-databroker-" + server.Namespace + "-" + server.Cluster + "." + server.External)
 	} else {
 		DAEMON_DATABROKER_API_URL, _ = url.Parse(daemon_databroker_api_url)
 	}
 	Is_DAEMON_DATABROKER_API_Reachable = tool.IsSiteReachable(DAEMON_DATABROKER_API_URL.String())
-	logString += "  " + server.ServiceNameC + "_DAEMON_DATABROKER_API_URL: " + DAEMON_DATABROKER_API_URL.String() + " ..... " + strconv.FormatBool(Is_DAEMON_DATABROKER_API_Reachable) + "\n"
+	logString += "  " + server.AppNameC + "_DAEMON_DATABROKER_API_URL: " + DAEMON_DATABROKER_API_URL.String() + " ..... " + strconv.FormatBool(Is_DAEMON_DATABROKER_API_Reachable) + "\n"
 
 	ifps_desk_ui_url := os.Getenv("IFP_DESK_UI_URL")
 	if tool.IsEmptyString(ifps_desk_ui_url) {

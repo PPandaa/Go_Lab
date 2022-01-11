@@ -47,7 +47,7 @@ type CapacityStruct struct {
 
 func RegisterOutbound() {
 
-	content := map[string]interface{}{"name": server.ServiceNameC, "sourceId": "scada_" + server.ServiceNameL, "url": dependency.DAEMON_DATABROKER_API_URL.String(), "active": true}
+	content := map[string]interface{}{"name": server.AppNameC, "sourceId": "scada_" + server.AppNameL, "url": dependency.DAEMON_DATABROKER_API_URL.String(), "active": true}
 	variable := map[string]interface{}{"input": content}
 	httpRequestBody, _ := json.Marshal(map[string]interface{}{
 		"query":     "mutation ($input: AddOutboundInput!) { addOutbound(input: $input) { outbound { id name url sourceId allowUnauthorized active connected } } }",
@@ -63,9 +63,9 @@ func RegisterOutbound() {
 	response, _ := server.HttpClient.Do(request)
 	m, _ := simplejson.NewFromReader(response.Body)
 	if len(m.Get("errors").MustArray()) == 0 {
-		guard.Logger.Info("Register Outbound " + server.ServiceNameC + " Success")
+		guard.Logger.Info("Register Outbound " + server.AppNameC + " Success")
 	} else {
-		guard.Logger.Info("Outbound " + server.ServiceNameC + " is already exist")
+		guard.Logger.Info("Outbound " + server.AppNameC + " is already exist")
 	}
 
 }
