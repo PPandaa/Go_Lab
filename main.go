@@ -1,8 +1,9 @@
 package main
 
 import (
-	"GoLab/database/mongodb"
+	"GoLab/dependency"
 	"GoLab/guard"
+	"GoLab/lab/mongodbLab"
 	"GoLab/server"
 
 	"github.com/joho/godotenv"
@@ -15,18 +16,9 @@ func init() {
 		guard.Logger.Fatal("loading env file: " + err.Error())
 	}
 
-	server.Check()
+	server.Up()
 
-	mongodb.Set()
-	// redisdb.Set()
-	// miniodb.Set()
-	// dependency.Set()
-
-	mongodb.Connect()
-	// redisdb.Connect()
-	// miniodb.Connect()
-
-	// socketLab.Set()
+	dependency.Set()
 
 }
 
@@ -37,7 +29,7 @@ func main() {
 	// wg.Add(1)
 
 	guard.Logger.Info(server.AppNameL + "-" + server.ServiceName + " active")
-	// mongodbLab.RemoveAllCollection()
+	mongodbLab.RemoveAllCollection()
 
 	// wg.Wait()
 

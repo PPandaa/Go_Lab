@@ -23,18 +23,18 @@ func Run() {
 
 		etcdCliForIApp := &EtcdCli{}
 		etcdCliForIApp.client = etcdCliForIApp.connect(etcdConn)
-		etcdCliForIApp.start("iapps/", dependency.AppNameC, dependency.AppVersion)
+		etcdCliForIApp.start("iapps/", server.AppNameC, server.AppVersion)
 		var iAppLink IAppLink
-		iAppLink.new(dependency.AppNameC, dependency.UI_URL.String(), dependency.API_URL.String()+"/images/icon.svg", "iframe")
+		iAppLink.new(server.AppNameC, server.UI_URL.String(), server.API_URL.String()+"/images/icon.svg", "iframe")
 		etcdCliForIApp.putIAppLink(iAppLink)
 		var iAppFeature IAppFeature
-		iAppFeature.new(dependency.AppNameC, dependency.API_URL.String()+"/images/icon.svg")
+		iAppFeature.new(server.AppNameC, server.API_URL.String()+"/images/icon.svg")
 		etcdCliForIApp.putIAppFeature(iAppFeature)
 		etcdCliForIApp.startElection()
 
 		etcdCliForService := &EtcdCli{}
 		etcdCliForService.client = etcdCliForService.connect(etcdConn)
-		etcdCliForService.start("services/", dependency.AppNameC, dependency.AppVersion)
+		etcdCliForService.start("services/", server.AppNameC, server.AppVersion)
 		etcdCliForService.startElection()
 
 		go etcdCliForService.watchServiceSecrets()

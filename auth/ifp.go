@@ -23,7 +23,7 @@ func GetServiceSecret() map[string]interface{} {
 	var secret map[string]interface{}
 
 	for {
-		request, _ := http.NewRequest("GET", dependency.ETCD_BROKER_API_URL.String()+"/service", nil)
+		request, _ := http.NewRequest("GET", server.ETCD_BROKER_API_URL.String()+"/service", nil)
 		response, _ := server.HttpClient.Do(request)
 		if response.StatusCode == 200 {
 			m, _ := simplejson.NewFromReader(response.Body)

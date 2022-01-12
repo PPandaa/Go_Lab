@@ -15,9 +15,9 @@ import (
 
 var (
 	DB          *mgo.Database
+	MongodbInfo InfoStruct
 	Session     *mgo.Session
 	valueFrom   string
-	MongodbInfo InfoStruct
 )
 
 type InfoStruct struct {
@@ -30,7 +30,7 @@ type InfoStruct struct {
 
 func Set() {
 
-	logString := "MongoDB Info." + "\n"
+	logString := "  MongoDB Info." + "\n"
 
 	if server.Location == server.Cloud {
 		if server.IsEnsaasServiceEnable && len(server.EnsaasService.Get("mongodb").MustArray()) != 0 {
@@ -65,11 +65,11 @@ func Set() {
 			MongodbInfo.Password = os.Getenv("MONGODB_PASSWORD")
 		}
 	}
-	logString += "  FROM: " + valueFrom + "\n" +
-		"    URL: " + MongodbInfo.URL + "\n" +
-		"    Database: " + MongodbInfo.Database + "\n" +
-		"    Username: " + MongodbInfo.Username + "\n" +
-		"    Password: " + MongodbInfo.Password + "\n"
+	logString += "    FROM: " + valueFrom + "\n" +
+		"      URL: " + MongodbInfo.URL + "\n" +
+		"      Database: " + MongodbInfo.Database + "\n" +
+		"      Username: " + MongodbInfo.Username + "\n" +
+		"      Password: " + MongodbInfo.Password + "\n"
 
 	fmt.Print(logString + "\n")
 
@@ -79,7 +79,7 @@ func Connect() {
 
 	newSession, err := mgo.Dial(MongodbInfo.URL)
 	if err != nil {
-		guard.Logger.Error("mongodb connect fail -> " + err.Error() + "\n")
+		guard.Logger.Fatal("mongodb connect fail -> " + err.Error() + "\n")
 		for err != nil {
 			newSession, err = mgo.Dial(MongodbInfo.URL)
 			time.Sleep(5 * time.Second)
@@ -101,8 +101,6 @@ func Connect() {
 		}
 		DB = Session.DB(MongodbInfo.Database)
 	}
-
-	guard.Logger.Info("mongodb connect success")
 
 }
 

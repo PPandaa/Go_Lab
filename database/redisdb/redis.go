@@ -15,11 +15,11 @@ import (
 )
 
 var (
-	IsRedisEnable = false
-	Client        *redis.Client
-	RedisdbInfo   infoStruct
-	ctx           = context.Background()
-	valueFrom     string
+	Client      *redis.Client
+	RedisdbInfo infoStruct
+	valueFrom   string
+
+	ctx = context.Background()
 )
 
 type infoStruct struct {
@@ -29,7 +29,7 @@ type infoStruct struct {
 
 func Set() {
 
-	logString := "Redis Info." + "\n"
+	logString := "  Redis Info." + "\n"
 
 	if server.Location == server.Cloud {
 		if server.IsEnsaasServiceEnable && len(server.EnsaasService.Get("redis").MustArray()) != 0 {
@@ -58,9 +58,9 @@ func Set() {
 		}
 	}
 
-	logString += "  FROM: " + valueFrom + "\n" +
-		"    URL: " + RedisdbInfo.URL + "\n" +
-		"    PASSWORD: " + RedisdbInfo.Password + "\n"
+	logString += "    FROM: " + valueFrom + "\n" +
+		"      URL: " + RedisdbInfo.URL + "\n" +
+		"      PASSWORD: " + RedisdbInfo.Password + "\n"
 
 	fmt.Print(logString + "\n")
 
@@ -73,12 +73,10 @@ func Connect() {
 			Addr:     RedisdbInfo.URL,
 			Password: RedisdbInfo.Password,
 		})
+
 		_, err := Client.Ping(ctx).Result()
 		if err != nil {
 			guard.Logger.Fatal("redis login fail -> " + err.Error())
-		} else {
-			guard.Logger.Info("redis connect success")
-			IsRedisEnable = true
 		}
 	}
 

@@ -20,9 +20,11 @@ func CheckType(i interface{}) string {
 func InterfaceListToStringList(iList []interface{}) []string {
 
 	stringList := []string{}
+
 	for _, v := range iList {
 		stringList = append(stringList, v.(string))
 	}
+
 	return stringList
 
 }

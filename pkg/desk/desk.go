@@ -45,9 +45,13 @@ type CapacityStruct struct {
 	Duration string  `bson:"Duration"`
 }
 
+var (
+	LastWaconnTime time.Time
+)
+
 func RegisterOutbound() {
 
-	content := map[string]interface{}{"name": server.AppNameC, "sourceId": "scada_" + server.AppNameL, "url": dependency.DAEMON_DATABROKER_API_URL.String(), "active": true}
+	content := map[string]interface{}{"name": server.AppNameC, "sourceId": "scada_" + server.AppNameL, "url": server.DAEMON_DATABROKER_API_URL.String(), "active": true}
 	variable := map[string]interface{}{"input": content}
 	httpRequestBody, _ := json.Marshal(map[string]interface{}{
 		"query":     "mutation ($input: AddOutboundInput!) { addOutbound(input: $input) { outbound { id name url sourceId allowUnauthorized active connected } } }",

@@ -13,11 +13,11 @@ import (
 )
 
 var (
-	IsMinioEnable = false
-	Client        *minio.Client
-	valueFrom     string
-	MinioDBInfo   InfoStruct
-	Bucket        = "peter-test"
+	Client      *minio.Client
+	MinioDBInfo InfoStruct
+	valueFrom   string
+
+	Bucket = "peter-test"
 )
 
 type InfoStruct struct {
@@ -29,12 +29,10 @@ type InfoStruct struct {
 
 func Set() {
 
-	logString := "MinIO Info." + "\n"
+	logString := "  MinIO Info." + "\n"
 
 	valueFrom = "ENV"
 	if !tool.IsEmptyString(os.Getenv("STORAGE_API_URL")) {
-		IsMinioEnable = true
-
 		url := strings.Split(os.Getenv("STORAGE_API_URL"), "://")
 		urlHead := url[0]
 		if urlHead == "https" {
@@ -48,16 +46,16 @@ func Set() {
 		} else {
 			MinioDBInfo.URL = url[1]
 		}
-
-		MinioDBInfo.AccessKey = os.Getenv("STORAGE_ACCESS_KEY")
-		MinioDBInfo.SecretKey = os.Getenv("STORAGE_SECRET_KEY")
-
-		logString += "  FROM: " + valueFrom + "\n" +
-			"    SSL: " + strconv.FormatBool(MinioDBInfo.IsSSL) + "\n" +
-			"    URL: " + MinioDBInfo.URL + "\n" +
-			"    AccessKey: " + MinioDBInfo.AccessKey + "\n" +
-			"    SecretKey: " + MinioDBInfo.SecretKey + "\n"
 	}
+
+	MinioDBInfo.AccessKey = os.Getenv("STORAGE_ACCESS_KEY")
+	MinioDBInfo.SecretKey = os.Getenv("STORAGE_SECRET_KEY")
+
+	logString += "    FROM: " + valueFrom + "\n" +
+		"      SSL: " + strconv.FormatBool(MinioDBInfo.IsSSL) + "\n" +
+		"      URL: " + MinioDBInfo.URL + "\n" +
+		"      AccessKey: " + MinioDBInfo.AccessKey + "\n" +
+		"      SecretKey: " + MinioDBInfo.SecretKey + "\n"
 
 	fmt.Print(logString + "\n")
 
@@ -66,15 +64,11 @@ func Set() {
 func Connect() {
 
 	var err error
-
-	if IsMinioEnable {
-		Client, err = minio.New(MinioDBInfo.URL, MinioDBInfo.AccessKey, MinioDBInfo.SecretKey, MinioDBInfo.IsSSL)
-		if err != nil {
-			guard.Logger.Fatal("minio connect fail -> " + err.Error())
-		} else {
-			guard.Logger.Info("minio connect success")
-			Client.MakeBucket(Bucket, "")
-		}
+	Client, err = minio.New(MinioDBInfo.URL, MinioDBInfo.AccessKey, MinioDBInfo.SecretKey, MinioDBInfo.IsSSL)
+	if err != nil {
+		guard.Logger.Fatal("minio connect fail -> " + err.Error())
+	} else {
+		Client.MakeBucket(Bucket, "")
 	}
 
 }
