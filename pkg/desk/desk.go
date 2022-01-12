@@ -63,9 +63,9 @@ func RegisterOutbound() {
 	response, _ := server.HttpClient.Do(request)
 	m, _ := simplejson.NewFromReader(response.Body)
 	if len(m.Get("errors").MustArray()) == 0 {
-		guard.Logger.Info("Register Outbound " + server.AppNameC + " Success")
+		guard.Logger.Info("register outbound " + server.AppNameC + " success")
 	} else {
-		guard.Logger.Info("Outbound " + server.AppNameC + " is already exist")
+		guard.Logger.Info("outbound " + server.AppNameC + " is already exist")
 	}
 
 }

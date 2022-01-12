@@ -57,7 +57,7 @@ func Set() {
 		if !tool.IsEmptyString(mongodbPasswordFile) {
 			mongodbPassword, err := ioutil.ReadFile(mongodbPasswordFile)
 			if err != nil {
-				guard.Logger.Sugar().Fatalw("MongoDB Password File", "FilePath", mongodbPasswordFile)
+				guard.Logger.Sugar().Fatalw("mongodb password file", "file path", mongodbPasswordFile)
 			} else {
 				MongodbInfo.Password = string(mongodbPassword)
 			}
@@ -79,7 +79,7 @@ func Connect() {
 
 	newSession, err := mgo.Dial(MongodbInfo.URL)
 	if err != nil {
-		guard.Logger.Error("MongoDB Connect Fail -> " + err.Error() + "\n")
+		guard.Logger.Error("mongodb connect fail -> " + err.Error() + "\n")
 		for err != nil {
 			newSession, err = mgo.Dial(MongodbInfo.URL)
 			time.Sleep(5 * time.Second)
@@ -91,18 +91,18 @@ func Connect() {
 		DB = Session.DB(MongodbInfo.Database)
 		err = DB.Login(MongodbInfo.Username, MongodbInfo.Password)
 		if err != nil {
-			guard.Logger.Fatal("MongoDB Connect Fail -> " + err.Error())
+			guard.Logger.Fatal("mongodb connect fail -> " + err.Error())
 		}
 	} else {
 		DB = Session.DB(MongodbInfo.AuthDatabase)
 		err = DB.Login(MongodbInfo.Username, MongodbInfo.Password)
 		if err != nil {
-			guard.Logger.Fatal("MongoDB Connect Fail -> " + err.Error())
+			guard.Logger.Fatal("mongodb connect fail -> " + err.Error())
 		}
 		DB = Session.DB(MongodbInfo.Database)
 	}
 
-	guard.Logger.Info("MongoDB Connect Success")
+	guard.Logger.Info("mongodb connect success")
 
 }
 
@@ -110,9 +110,9 @@ func ConnectCheck() {
 
 	err := Session.Ping()
 	if err != nil {
-		guard.Logger.Error("MongoDB Connect Check Fail")
+		guard.Logger.Error("mongodb connect check fail")
 		Session.Refresh()
-		guard.Logger.Info("MongoDB Reconnect")
+		guard.Logger.Info("mongodb reconnect")
 	}
 
 }

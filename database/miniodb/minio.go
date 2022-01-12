@@ -70,9 +70,9 @@ func Connect() {
 	if IsMinioEnable {
 		Client, err = minio.New(MinioDBInfo.URL, MinioDBInfo.AccessKey, MinioDBInfo.SecretKey, MinioDBInfo.IsSSL)
 		if err != nil {
-			guard.Logger.Fatal("MinIO Connect Fail -> " + err.Error())
+			guard.Logger.Fatal("minio connect fail -> " + err.Error())
 		} else {
-			guard.Logger.Info("MinIO Connect Success")
+			guard.Logger.Info("minio connect success")
 			Client.MakeBucket(Bucket, "")
 		}
 	}

@@ -54,7 +54,7 @@ func CloudIFPToken() {
 		response, _ := server.HttpClient.Do(request)
 		m, _ := simplejson.NewFromReader(response.Body)
 		IFPToken = m.Get("clientSecret").MustString()
-		guard.Logger.Info("Cloud IFP Token: " + IFPToken)
+		guard.Logger.Info("cloud ifp token: " + IFPToken)
 		time.Sleep(60 * time.Minute)
 	}
 
@@ -77,7 +77,7 @@ func OnPremiseIFPToken() {
 			if len(m.Get("errors").MustArray()) == 0 {
 				break
 			} else {
-				guard.Logger.Info("Retry OnPremiseIFPToken")
+				guard.Logger.Info("retry on-premise ifp token")
 				httpRequestBody, _ = json.Marshal(map[string]interface{}{
 					"query":     "mutation signIn($input: SignInInput!) { signIn(input: $input) { user { name __typename } __typename } }",
 					"variables": variable,
@@ -105,7 +105,7 @@ func OnPremiseIFPToken() {
 		} else {
 			IFPToken = ifpToken + ";" + eiToken
 		}
-		guard.Logger.Info("On-Premise IFP Token: " + IFPToken)
+		guard.Logger.Info("on-premise ifp token: " + IFPToken)
 		time.Sleep(60 * time.Minute)
 	}
 

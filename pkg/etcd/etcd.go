@@ -56,7 +56,7 @@ func (cli *EtcdCli) connect(ec *EtcdConn) *clientv3.Client {
 		},
 	)
 	if err != nil {
-		guard.Logger.Error("ETCD Connect Failed: " + err.Error())
+		guard.Logger.Error("etcd connect failed: " + err.Error())
 	}
 	// guard.Logger.Info("ETCD Connect Success")
 	return client
@@ -114,7 +114,7 @@ func (cli *EtcdCli) startElection() {
 			defer cancel()
 			err := cli.election.Campaign(ctx, cli.serviceVersion+"/"+cli.serviceID)
 			if err != nil {
-				guard.Logger.Error("ETCD Failed To Campaign: " + err.Error())
+				guard.Logger.Error("etcd failed to campaign: " + err.Error())
 			} else {
 				// guard.Logger.Info("ETCD Become The Leader!")
 				break

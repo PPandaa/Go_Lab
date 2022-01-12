@@ -39,7 +39,7 @@ func Run() {
 
 		go etcdCliForService.watchServiceSecrets()
 	} else {
-		guard.Logger.Fatal("ETCD disable")
+		guard.Logger.Fatal("etcd disable")
 	}
 
 }
@@ -64,7 +64,7 @@ func get_etcd_info() (bool, string, string) {
 			}
 			break
 		} else {
-			guard.Logger.Error("Desk unreachable")
+			guard.Logger.Error("desk unreachable")
 			dependency.Is_IFP_DESK_API_Reachable = tool.IsSiteReachable(dependency.IFP_DESK_UI_URL.String())
 		}
 		time.Sleep(1 * time.Minute)

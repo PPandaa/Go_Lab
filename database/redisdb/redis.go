@@ -49,7 +49,7 @@ func Set() {
 		if !tool.IsEmptyString(redisdbPasswordFile) {
 			redisPassword, err := ioutil.ReadFile(redisdbPasswordFile)
 			if err != nil {
-				guard.Logger.Sugar().Fatalw("Redis Password File", "FilePath", redisdbPasswordFile)
+				guard.Logger.Sugar().Fatalw("redis password file", "file path", redisdbPasswordFile)
 			} else {
 				RedisdbInfo.Password = string(redisPassword)
 			}
@@ -75,9 +75,9 @@ func Connect() {
 		})
 		_, err := Client.Ping(ctx).Result()
 		if err != nil {
-			guard.Logger.Fatal("Redis Login Fail -> " + err.Error())
+			guard.Logger.Fatal("redis login fail -> " + err.Error())
 		} else {
-			guard.Logger.Info("Redis Connect Success")
+			guard.Logger.Info("redis connect success")
 			IsRedisEnable = true
 		}
 	}

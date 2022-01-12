@@ -12,7 +12,7 @@ func init() {
 
 	err := godotenv.Load("local.env")
 	if err != nil {
-		guard.Logger.Fatal("Loading ENV File: " + err.Error())
+		guard.Logger.Fatal("loading env file: " + err.Error())
 	}
 
 	server.Check()
@@ -36,7 +36,7 @@ func main() {
 
 	// wg.Add(1)
 
-	guard.Logger.Info("GoLab Server Active")
+	guard.Logger.Info(server.AppNameL + "-" + server.ServiceName + " active")
 	// mongodbLab.RemoveAllCollection()
 
 	// wg.Wait()
