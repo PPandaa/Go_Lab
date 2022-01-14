@@ -15,9 +15,10 @@ import (
 )
 
 var (
-	Client      *redis.Client
-	RedisdbInfo infoStruct
-	valueFrom   string
+	Client        *redis.Client
+	RedisdbInfo   infoStruct
+	valueFrom     string
+	IsRedisEnable bool
 
 	ctx = context.Background()
 )
@@ -76,8 +77,13 @@ func Connect() {
 
 		_, err := Client.Ping(ctx).Result()
 		if err != nil {
+			IsRedisEnable = false
 			guard.Logger.Fatal("redis login fail -> " + err.Error())
+		} else {
+			IsRedisEnable = true
 		}
+	} else {
+		IsRedisEnable = false
 	}
 
 }

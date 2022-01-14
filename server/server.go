@@ -13,9 +13,10 @@ import (
 )
 
 const (
+	Cloud     = "Cloud"
+	OnPremise = "On-Premise"
+
 	ServiceName = "lab"
-	Cloud       = "Cloud"
-	OnPremise   = "On-Premise"
 
 	DefaultAppNameC = "IFPS_III"
 	DefaultAppNameL = "ifps-iii"
@@ -51,6 +52,7 @@ var (
 func Up() {
 
 	fmt.Print("Server Info." + "\n")
+
 	check_server_location()
 	check_service()
 

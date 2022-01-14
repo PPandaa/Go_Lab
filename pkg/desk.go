@@ -1,4 +1,4 @@
-package desk
+package pkg
 
 import (
 	"GoLab/auth"
@@ -46,24 +46,44 @@ type CapacityStruct struct {
 }
 
 var (
-	LastWaconnTime time.Time
+	Desk_LastWaconnTime time.Time
 )
 
-func RegisterOutbound() {
+func Desk_RegisterOutbound() {
 
-	content := map[string]interface{}{"name": server.AppNameC, "sourceId": "scada_" + server.AppNameL, "url": server.DAEMON_DATABROKER_API_URL.String(), "active": true}
+	content := map[string]interface{}{
+		"name":     server.AppNameC,
+		"sourceId": "scada_" + server.AppNameL,
+		"url":      server.DAEMON_DATABROKER_API_URL.String(),
+		"active":   true,
+	}
+
 	variable := map[string]interface{}{"input": content}
+
 	httpRequestBody, _ := json.Marshal(map[string]interface{}{
-		"query":     "mutation ($input: AddOutboundInput!) { addOutbound(input: $input) { outbound { id name url sourceId allowUnauthorized active connected } } }",
+		"query": `mutation ($input: AddOutboundInput!) {
+			addOutbound(input: $input) {
+				outbound {
+					id
+					name
+					url
+					sourceId
+					allowUnauthorized
+					active
+					connected
+				}
+			}
+		}`,
 		"variables": variable,
 	})
+
 	request, _ := http.NewRequest("POST", dependency.IFP_DESK_API_URL.String(), bytes.NewBuffer(httpRequestBody))
-	if server.Location == server.Cloud {
-		request.Header.Set("X-Ifp-App-Secret", auth.IFPToken)
-	} else {
-		request.Header.Set("cookie", auth.IFPToken)
-	}
 	request.Header.Set("Content-Type", "application/json")
+	secret := auth.GetServiceSecret()
+	for k, v := range secret {
+		request.Header.Set(k, v.(string))
+	}
+
 	response, _ := server.HttpClient.Do(request)
 	m, _ := simplejson.NewFromReader(response.Body)
 	if len(m.Get("errors").MustArray()) == 0 {
@@ -74,20 +94,32 @@ func RegisterOutbound() {
 
 }
 
-func GetGroup(mode string) {
+func Desk_GetGroup(mode string) {
 
 	mongodb.ConnectCheck()
 
 	httpRequestBody, _ := json.Marshal(map[string]interface{}{
-		"query": "query groups { groups { _id id name createdAt updatedAt parentId timeZone description } }",
+		"query": `query groups {
+			groups {
+				_id
+				id
+				name
+				createdAt
+				updatedAt
+				parentId
+				timeZone
+				description
+			}
+		}`,
 	})
+
 	request, _ := http.NewRequest("POST", dependency.IFP_DESK_API_URL.String(), bytes.NewBuffer(httpRequestBody))
-	if server.Location == server.Cloud {
-		request.Header.Set("X-Ifp-App-Secret", auth.IFPToken)
-	} else {
-		request.Header.Set("cookie", auth.IFPToken)
-	}
 	request.Header.Set("Content-Type", "application/json")
+	secret := auth.GetServiceSecret()
+	for k, v := range secret {
+		request.Header.Set(k, v.(string))
+	}
+
 	response, _ := server.HttpClient.Do(request)
 	m, _ := simplejson.NewFromReader(response.Body)
 	if len(m.Get("errors").MustArray()) == 0 {
@@ -95,7 +127,7 @@ func GetGroup(mode string) {
 		temp, _ := m.Get("data").Get("groups").MarshalJSON()
 		json.Unmarshal(temp, &groups)
 		for _, group := range groups {
-			SetGroup(group.GroupID, group)
+			Desk_SetGroup(group.GroupID, group)
 		}
 	} else {
 		guard.Logger.Fatal("GetGroup =>  " + m.Get("errors").GetIndex(0).Get("message").MustString())
@@ -103,7 +135,7 @@ func GetGroup(mode string) {
 
 }
 
-func SetGroup(groupID string, group interface{}) {
+func Desk_SetGroup(groupID string, group interface{}) {
 
 	mongodb.ConnectCheck()
 
@@ -118,7 +150,7 @@ func SetGroup(groupID string, group interface{}) {
 
 }
 
-func DeleteGroup(groupID string) {
+func Desk_DeleteGroup(groupID string) {
 
 	mongodb.ConnectCheck()
 
@@ -131,7 +163,7 @@ func DeleteGroup(groupID string) {
 
 }
 
-func GetMachine(mode string, groupUnderID ...string) {
+func Desk_GetMachine(mode string, groupUnderID ...string) {
 
 	mongodb.ConnectCheck()
 
@@ -158,19 +190,34 @@ func GetMachine(mode string, groupUnderID ...string) {
 
 	if len(groupIDs) != 0 {
 		httpRequestBody, _ := json.Marshal(map[string]interface{}{
-			"query":     "query ($groupId: [ID!]!) { groupsByIds(ids: $groupId) { _id id name timeZone machines { _id id name createdAt updatedAt imageUrl } } }",
+			"query": `query ($groupId: [ID!]!) {
+				groupsByIds(ids: $groupId) {
+					_id
+					id
+					name
+					timeZone
+					machines {
+						_id
+						id
+						name
+						createdAt
+						updatedAt
+						imageUrl
+					}
+				}
+			}`,
 			"variables": map[string][]string{"groupId": groupIDs},
 		})
+
 		request, _ := http.NewRequest("POST", dependency.IFP_DESK_API_URL.String(), bytes.NewBuffer(httpRequestBody))
-		if server.Location == server.Cloud {
-			request.Header.Set("X-Ifp-App-Secret", auth.IFPToken)
-		} else {
-			request.Header.Set("cookie", auth.IFPToken)
-		}
 		request.Header.Set("Content-Type", "application/json")
+		secret := auth.GetServiceSecret()
+		for k, v := range secret {
+			request.Header.Set(k, v.(string))
+		}
+
 		response, _ := server.HttpClient.Do(request)
 		m, _ := simplejson.NewFromReader(response.Body)
-
 		if len(m.Get("errors").MustArray()) == 0 {
 			groupsLayer := m.Get("data").Get("groupsByIds")
 			for indexOfGroups := 0; indexOfGroups < len(groupsLayer.MustArray()); indexOfGroups++ {
@@ -196,7 +243,7 @@ func GetMachine(mode string, groupUnderID ...string) {
 
 }
 
-func DeleteMachine(machineID string) {
+func Desk_DeleteMachine(machineID string) {
 
 	mongodb.ConnectCheck()
 
@@ -209,7 +256,7 @@ func DeleteMachine(machineID string) {
 
 }
 
-func GetStation(mode string, groupUnderID ...string) {
+func Desk_GetStation(mode string, groupUnderID ...string) {
 
 	mongodb.ConnectCheck()
 
@@ -236,19 +283,34 @@ func GetStation(mode string, groupUnderID ...string) {
 
 	if len(groupIDs) != 0 {
 		httpRequestBody, _ := json.Marshal(map[string]interface{}{
-			"query":     "query ($groupId: [ID!]!) { groupsByIds(ids: $groupId) { _id id name createdAt updatedAt machines(isStation: true) { _id id name createdAt updatedAt } } }",
+			"query": `query ($groupId: [ID!]!) {
+				groupsByIds(ids: $groupId) {
+					_id
+					id
+					name
+					createdAt
+					updatedAt
+					machines(isStation: true) {
+						_id
+						id
+						name
+						createdAt
+						updatedAt
+					}
+				}
+			}`,
 			"variables": map[string][]string{"groupId": groupIDs},
 		})
+
 		request, _ := http.NewRequest("POST", dependency.IFP_DESK_API_URL.String(), bytes.NewBuffer(httpRequestBody))
-		if server.Location == server.Cloud {
-			request.Header.Set("X-Ifp-App-Secret", auth.IFPToken)
-		} else {
-			request.Header.Set("cookie", auth.IFPToken)
-		}
 		request.Header.Set("Content-Type", "application/json")
+		secret := auth.GetServiceSecret()
+		for k, v := range secret {
+			request.Header.Set(k, v.(string))
+		}
+
 		response, _ := server.HttpClient.Do(request)
 		m, _ := simplejson.NewFromReader(response.Body)
-
 		if len(m.Get("errors").MustArray()) == 0 {
 			groupsLayer := m.Get("data").Get("groupsByIds")
 			for indexOfGroups := 0; indexOfGroups < len(groupsLayer.MustArray()); indexOfGroups++ {
@@ -274,7 +336,7 @@ func GetStation(mode string, groupUnderID ...string) {
 
 }
 
-func DeleteStation(stationID string) {
+func Desk_DeleteStation(stationID string) {
 
 	mongodb.ConnectCheck()
 
