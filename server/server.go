@@ -17,10 +17,6 @@ const (
 	OnPremise = "On-Premise"
 
 	ServiceName = "lab"
-
-	DefaultAppNameC = "IFPS_III"
-	DefaultAppNameL = "ifps-iii"
-	DefaultVersion  = "1.0.0"
 )
 
 var (
@@ -36,6 +32,7 @@ var (
 	EnsaasService         *simplejson.Json
 	IsEnsaasServiceEnable bool
 
+	AppName    string
 	AppNameC   string
 	AppNameL   string
 	AppVersion string
@@ -99,9 +96,17 @@ func check_service() {
 	logString := ""
 
 	// iapp info
+	appName := os.Getenv("IAPP_NAME")
+	if tool.IsEmptyString(appName) {
+		AppName = "III"
+	} else {
+		AppName = appName
+	}
+	logString += "  IAPP_NAME: " + AppName + "\n"
+
 	appNameC := os.Getenv("IAPP_NAME_CAPITAL")
 	if tool.IsEmptyString(appNameC) {
-		AppNameC = DefaultAppNameC
+		AppNameC = "IFPS_III"
 	} else {
 		AppNameC = appNameC
 	}
@@ -109,7 +114,7 @@ func check_service() {
 
 	appNameL := os.Getenv("IAPP_NAME_LOWER")
 	if tool.IsEmptyString(appNameL) {
-		AppNameL = DefaultAppNameL
+		AppNameL = "ifps-iii"
 	} else {
 		AppNameL = appNameL
 	}
@@ -117,11 +122,11 @@ func check_service() {
 
 	appVersion := os.Getenv("IAPP_VERSION")
 	if tool.IsEmptyString(appVersion) {
-		AppVersion = DefaultVersion
+		AppVersion = "1.0.0"
 	} else {
 		AppVersion = appVersion
 	}
-	logString += "  IAPP_VERSION: " + AppVersion + "\n" + "\n"
+	logString += "  IAPP_VERSION: " + AppVersion + "\n"
 
 	// iapp service info
 	ui_url := os.Getenv(AppNameC + "_UI_URL")
