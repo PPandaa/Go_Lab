@@ -51,7 +51,8 @@ func Up() {
 	fmt.Print("Server Info." + "\n")
 
 	check_server_location()
-	check_service()
+	check_iapp_info()
+	check_iapp_service()
 
 }
 
@@ -91,7 +92,7 @@ func check_server_location() {
 
 }
 
-func check_service() {
+func check_iapp_info() {
 
 	logString := ""
 
@@ -127,6 +128,14 @@ func check_service() {
 		AppVersion = appVersion
 	}
 	logString += "  IAPP_VERSION: " + AppVersion + "\n"
+
+	fmt.Print(logString + "\n")
+
+}
+
+func check_iapp_service() {
+
+	logString := ""
 
 	// iapp service info
 	ui_url := os.Getenv(AppNameC + "_UI_URL")
