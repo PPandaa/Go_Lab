@@ -42,6 +42,7 @@ var (
 	AUTH_API_URL              *url.URL
 	COMMON_API_URL            *url.URL
 	DATASOURCE_API_URL        *url.URL
+	MESSAGEBUS_API_URL        *url.URL
 	ETCD_BROKER_API_URL       *url.URL
 	DAEMON_DATABROKER_API_URL *url.URL
 )
@@ -177,6 +178,14 @@ func check_iapp_service() {
 		DATASOURCE_API_URL, _ = url.Parse(datasource_api_url)
 	}
 	logString += "  DATASOURCE_API_URL: " + DATASOURCE_API_URL.String() + "\n"
+
+	messagebus_api_url := os.Getenv(AppNameC + "_MESSAGEBUS_API_URL")
+	if tool.IsEmptyString(messagebus_api_url) {
+		MESSAGEBUS_API_URL, _ = url.Parse("https://" + AppNameL + "-messagebus-" + Namespace + "-" + Cluster + "." + External)
+	} else {
+		MESSAGEBUS_API_URL, _ = url.Parse(messagebus_api_url)
+	}
+	logString += "  MESSAGEBUS_API_URL: " + MESSAGEBUS_API_URL.String() + "\n"
 
 	etcd_broker_api_url := os.Getenv(AppNameC + "_ETCD_BROKER_API_URL")
 	if len(etcd_broker_api_url) != 0 {

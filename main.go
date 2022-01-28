@@ -3,7 +3,6 @@ package main
 import (
 	"GoLab/dependency"
 	"GoLab/guard"
-	"GoLab/lab/mongodbLab"
 	"GoLab/server"
 
 	"github.com/joho/godotenv"
@@ -29,7 +28,7 @@ func main() {
 	// wg.Add(1)
 
 	guard.Logger.Info(server.AppNameL + "-" + server.ServiceName + " active")
-	mongodbLab.RemoveAllCollection()
+	// mongodbLab.RemoveAllCollection()
 
 	// wg.Wait()
 
