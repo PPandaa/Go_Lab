@@ -86,3 +86,12 @@ func RemoveAllCollection() {
 	}
 
 }
+
+func FindDistinctValue() {
+
+	collection := mongodb.DB.C(TestCollection)
+	var result []string
+	collection.Find(nil).Distinct("ID", &result)
+	fmt.Println(result)
+
+}

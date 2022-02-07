@@ -27,3 +27,15 @@ func IsSiteReachable(url string) bool {
 	return site_status
 
 }
+
+func IsStringDuplicate(target string, elements []string) bool {
+
+	result := false
+	for _, elelement := range elements {
+		if elelement == target {
+			result = true
+		}
+	}
+	return result
+
+}
