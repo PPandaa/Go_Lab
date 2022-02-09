@@ -149,7 +149,13 @@ func check_iapp_service() {
 
 	api_url := os.Getenv(AppNameC + "_API_URL")
 	if tool.IsEmptyString(api_url) {
-		API_URL, _ = url.Parse("https://" + AppNameL + "-api-" + Namespace + "-" + Cluster + "." + External)
+		if AppNameL == "ifps-andon" {
+			API_URL, _ = url.Parse("https://" + AppNameL + "-api-" + Namespace + "-" + Cluster + "." + External + "/andon/api/v1.0")
+		} else if AppNameL == "ifps-rms" {
+			API_URL, _ = url.Parse("https://" + AppNameL + "-api-" + Namespace + "-" + Cluster + "." + External + "/rms/api")
+		} else {
+			API_URL, _ = url.Parse("https://" + AppNameL + "-api-" + Namespace + "-" + Cluster + "." + External)
+		}
 	} else {
 		API_URL, _ = url.Parse(api_url)
 	}
