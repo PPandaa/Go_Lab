@@ -1,25 +1,17 @@
 package main
 
-import (
-	"GoLab/dependency"
-	"GoLab/guard"
-	"GoLab/server"
+// func init() {
 
-	"github.com/joho/godotenv"
-)
+// 	err := godotenv.Load("local.env")
+// 	if err != nil {
+// 		guard.Logger.Fatal("loading env file: " + err.Error())
+// 	}
 
-func init() {
+// 	server.Up()
 
-	err := godotenv.Load("local.env")
-	if err != nil {
-		guard.Logger.Fatal("loading env file: " + err.Error())
-	}
+// 	dependency.Set()
 
-	server.Up()
-
-	dependency.Set()
-
-}
+// }
 
 // var wg sync.WaitGroup
 
@@ -27,7 +19,10 @@ func main() {
 
 	// wg.Add(1)
 
-	guard.Logger.Info(server.AppNameL + "-" + server.ServiceName + " active")
+	// guard.Logger.Info(server.AppNameL + "-" + server.ServiceName + " active")
+
+	// crawlerLab.MyRod()
+
 	// mongodbLab.RemoveAllCollection()
 
 	// wg.Wait()
