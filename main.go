@@ -21,7 +21,7 @@ func main() {
 
 	// guard.Logger.Info(server.AppNameL + "-" + server.ServiceName + " active")
 
-	// crawlerLab.MyRod()
+	// crawlerLab.UCLRod()
 
 	// mongodbLab.RemoveAllCollection()
 
